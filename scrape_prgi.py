@@ -19,10 +19,6 @@ import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-import urllib3
-
-# Disable SSL warnings since we'll bypass certificate verification
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 BASE_URL = "https://prgi.gov.in/registration-title-details"
 DEFAULT_HEADERS = {
@@ -50,8 +46,6 @@ def build_session() -> requests.Session:
     session.mount("http://", adapter)
     session.mount("https://", adapter)
     session.headers.update(DEFAULT_HEADERS)
-    # Disable SSL verification to handle certificate issues
-    session.verify = False
     return session
 
 
