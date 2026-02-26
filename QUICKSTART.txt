@@ -1,0 +1,104 @@
+╔════════════════════════════════════════════════════════╗
+║     🔍 PRGI Data Search - Quick Start Guide          ║
+╚════════════════════════════════════════════════════════╝
+
+📦 INSTALLATION
+──────────────────────────────────────────────────────────
+1. Install dependencies:
+   pip install -r requirements.txt
+
+2. Ensure you have the CSV data file:
+   prgi_registration_title_details.csv
+
+
+🚀 RUN THE APPLICATION
+──────────────────────────────────────────────────────────
+Simply run:
+   python main.py
+
+Or manually:
+   streamlit run app.py
+
+
+🔄 IMPORT DATA (if needed)
+──────────────────────────────────────────────────────────
+   python prgi_data_manager.py import \
+     --csv prgi_registration_title_details.csv \
+     --db prgi_data.db
+
+
+🔍 SEARCH FEATURES
+──────────────────────────────────────────────────────────
+Web Interface (http://localhost:8501):
+   ✓ Search by Title (contains keywords)
+   ✓ Search by Owner Name
+   ✓ Search by Registration Number
+   ✓ Filter by State
+   ✓ Filter by District
+   ✓ Filter by Language
+   ✓ Filter by Class
+   ✓ Export results as CSV/JSON
+
+
+💻 CLI USAGE
+──────────────────────────────────────────────────────────
+Query from command line:
+
+   # Basic query
+   python prgi_data_manager.py query --db prgi_data.db
+
+   # Filter by state
+   python prgi_data_manager.py query \
+     --state Maharashtra --limit 50
+
+   # Complex query with export
+   python prgi_data_manager.py query \
+     --state Maharashtra \
+     --language Hindi \
+     --owner Kumar \
+     --export results.csv
+
+
+📊 DATABASE INFO
+──────────────────────────────────────────────────────────
+Records: ~76,544 registration entries
+Format:  SQLite database
+File:    prgi_data.db
+
+
+🆘 TROUBLESHOOTING
+──────────────────────────────────────────────────────────
+Database not found?
+   → Run: python main.py (auto-imports data)
+
+Port already in use?
+   → Stop: pkill -f streamlit
+   → Or use: streamlit run app.py --server.port 8502
+
+Missing modules?
+   → Install: pip install -r requirements.txt
+
+
+📁 IMPORTANT FILES
+──────────────────────────────────────────────────────────
+✦ main.py                    - Run this to start!
+✦ app.py                     - Web application
+✦ prgi_data_manager.py       - CLI database tool
+✦ prgi_registration_title_details.csv - Source data
+✦ prgi_data.db              - Database (created on first run)
+✦ README.md                 - Full documentation
+
+
+🎯 EXAMPLE WORKFLOW
+──────────────────────────────────────────────────────────
+1. python main.py
+2. Open browser → http://localhost:8501
+3. Enter search criteria (e.g., State: "Maharashtra")
+4. Click "🔍 Search"
+5. View results
+6. Download as CSV/JSON
+
+That's it! 🎉
+
+
+For detailed documentation, see README.md

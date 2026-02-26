@@ -55,6 +55,8 @@ ALIASES = {
 
 
 def normalize_header(name: str) -> str:
+    if name is None or not name:
+        return ""
     key = " ".join(name.strip().lower().replace("_", " ").split())
     return ALIASES.get(key, key.replace(" ", "_"))
 
@@ -90,7 +92,9 @@ def connect_db(db_path: str) -> sqlite3.Connection:
 
 
 def row_to_canonical(row: Dict[str, str]) -> Dict[str, str]:
-    normalized = {normalize_header(k): (v or "").strip() for k, v in row.items()}
+    normalized = {normalize_header(k): (v or "").strip() for k, v in row.items() if k}
+    # Remove empty keys from normalization
+    normalized = {k: v for k, v in normalized.items() if k}
     canonical = {key: normalized.get(key, "") for key in CANONICAL_COLUMNS}
     extras = {k: v for k, v in normalized.items() if k not in CANONICAL_COLUMNS and v}
     canonical["meta_json"] = "" if not extras else json.dumps(extras, ensure_ascii=False)

@@ -1,0 +1,41 @@
+# Database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Streamlit
+.streamlit/
+
+# Export files
+filtered*.csv
+prgi_search_results.*
+export_*.csv
+export_*.json
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,235 @@
+PRGI Data Search - Database Management System
+══════════════════════════════════════════════════════════
+
+📂 PROJECT STRUCTURE
+──────────────────────────────────────────────────────────
+data_for_hackathon/
+│
+├── 🚀 main.py                              [ENTRY POINT - RUN THIS!]
+│   └─→ Launches the entire application
+│       • Checks dependencies
+│       • Verifies/creates database
+│       • Starts web server
+│
+├── 🌐 app.py                               [WEB APPLICATION]
+│   └─→ Streamlit web interface
+│       • Search UI with filters
+│       • Display results in table
+│       • Export to CSV/JSON
+│       • Real-time database stats
+│
+├── 🔧 prgi_data_manager.py                 [CLI DATABASE TOOL]
+│   └─→ Command-line database operations
+│       • import: CSV → SQLite
+│       • query: Filter and export data
+│
+├── 🕷️ scrape_prgi.py                       [WEB SCRAPER]
+│   └─→ Collects data from prgi.gov.in
+│       • Scrapes registration details
+│       • Saves to CSV
+│       (Optional - data already provided)
+│
+├── 💾 prgi_data.db                         [DATABASE - 28 MB]
+│   └─→ SQLite database with 76,544 records
+│       • Indexed for fast searches
+│       • Contains all registration data
+│
+├── 📊 prgi_registration_title_details.csv  [SOURCE DATA - 9.3 MB]
+│   └─→ Raw CSV data from PRGI
+│       • 76,544 registration records
+│       • Used to populate database
+│
+├── 📦 requirements.txt                     [DEPENDENCIES]
+│   └─→ Python package requirements
+│       • streamlit
+│       • pandas
+│
+├── 📖 README.md                            [FULL DOCUMENTATION]
+│   └─→ Comprehensive guide
+│       • Architecture
+│       • Installation
+│       • Usage examples
+│       • Troubleshooting
+│
+├── 📝 QUICKSTART.txt                       [QUICK REFERENCE]
+│   └─→ Quick start commands
+│       • One-page reference
+│       • Common commands
+│
+└── 🚫 .gitignore                           [GIT CONFIGURATION]
+    └─→ Excludes generated files
+        • Database files
+        • Cache files
+        • Export files
+
+
+🔄 APPLICATION FLOW
+──────────────────────────────────────────────────────────
+
+   START HERE!
+       │
+       ▼
+   python main.py
+       │
+       ├─→ Check Dependencies ✓
+       │   (streamlit, pandas)
+       │
+       ├─→ Check Database ✓
+       │   • If missing: Import CSV → SQLite
+       │   • If exists: Continue
+       │
+       └─→ Launch Streamlit App
+           │
+           ▼
+      ┌────────────────────┐
+      │  Web Browser Opens │
+      │  localhost:8501    │
+      └────────┬───────────┘
+               │
+               ▼
+      ┌────────────────────┐
+      │  Search Interface  │
+      │  • Title           │
+      │  • Owner           │
+      │  • Reg Number      │
+      │  • State           │
+      │  • District        │
+      │  • Language        │
+      │  • Class           │
+      └────────┬───────────┘
+               │
+               ▼
+      ┌────────────────────┐
+      │  Query Database    │
+      │  (prgi_data.db)    │
+      └────────┬───────────┘
+               │
+               ▼
+      ┌────────────────────┐
+      │  Display Results   │
+      │  • Table view      │
+      │  • Export CSV      │
+      │  • Export JSON     │
+      └────────────────────┘
+
+
+🎯 KEY COMPONENTS
+──────────────────────────────────────────────────────────
+
+1. DATA LAYER (Database)
+   ┌──────────────────────────────────────┐
+   │ SQLite Database: prgi_data.db        │
+   │ ────────────────────────────────     │
+   │ Table: registrations                 │
+   │   • 76,544 records                   │
+   │   • 10 columns                       │
+   │   • 5 indexes for fast search        │
+   └──────────────────────────────────────┘
+
+2. BUSINESS LOGIC (Python)
+   ┌──────────────────────────────────────┐
+   │ prgi_data_manager.py                 │
+   │ ────────────────────────────────     │
+   │ Functions:                           │
+   │   • connect_db()                     │
+   │   • import_csv()                     │
+   │   • query_data()                     │
+   │   • export_rows()                    │
+   └──────────────────────────────────────┘
+
+3. PRESENTATION LAYER (Web UI)
+   ┌──────────────────────────────────────┐
+   │ app.py (Streamlit)                   │
+   │ ────────────────────────────────     │
+   │ Features:                            │
+   │   • Search filters                   │
+   │   • Results table                    │
+   │   • Statistics dashboard             │
+   │   • Export buttons                   │
+   └──────────────────────────────────────┘
+
+4. ORCHESTRATION (Main Entry)
+   ┌──────────────────────────────────────┐
+   │ main.py                              │
+   │ ────────────────────────────────     │
+   │ Responsibilities:                    │
+   │   • Dependency management            │
+   │   • Database initialization          │
+   │   • Application launcher             │
+   └──────────────────────────────────────┘
+
+
+💡 USAGE PATTERNS
+──────────────────────────────────────────────────────────
+
+PATTERN 1: Quick Start (Most Common)
+   $ python main.py
+   → Everything automatic!
+
+PATTERN 2: Web Search
+   $ python main.py
+   → Browser opens
+   → Enter search criteria
+   → Click "Search"
+   → Download results
+
+PATTERN 3: CLI Query
+   $ python prgi_data_manager.py query \
+       --state Maharashtra \
+       --language Hindi \
+       --export results.csv
+
+PATTERN 4: Fresh Data Import
+   $ python prgi_data_manager.py import \
+       --csv new_data.csv \
+       --db prgi_data.db
+
+
+🔐 DATABASE SCHEMA
+──────────────────────────────────────────────────────────
+Table: registrations
+├── id (PRIMARY KEY)
+├── sr_no
+├── title_name
+├── registration_number    [INDEXED]
+├── owner_name            [INDEXED]
+├── pub_state_name        [INDEXED]
+├── pub_dist_name         [INDEXED]
+├── language              [INDEXED]
+├── class_name
+└── meta_json
+
+Unique constraint: (registration_number, title_name, owner_name)
+
+
+📊 STATISTICS
+──────────────────────────────────────────────────────────
+✓ Total Records:    76,544
+✓ Database Size:    28 MB
+✓ CSV Size:         9.3 MB
+✓ States Covered:   Multiple Indian states
+✓ Languages:        Hindi, English, Regional
+✓ Search Speed:     < 1 second (indexed)
+
+
+🚀 GETTING STARTED (3 STEPS)
+──────────────────────────────────────────────────────────
+1. Install:  pip install -r requirements.txt
+2. Run:      python main.py
+3. Browse:   http://localhost:8501
+
+That's it! Your database management system is running! 🎉
+
+
+📞 NEED HELP?
+──────────────────────────────────────────────────────────
+→ Quick reference: cat QUICKSTART.txt
+→ Full docs:       less README.md
+→ Test database:   python prgi_data_manager.py query --limit 5
+→ Check records:   sqlite3 prgi_data.db "SELECT COUNT(*) FROM registrations;"
+
+
+═══════════════════════════════════════════════════════════
+Last Updated: February 26, 2026
+Version: 1.0.0
+═══════════════════════════════════════════════════════════
